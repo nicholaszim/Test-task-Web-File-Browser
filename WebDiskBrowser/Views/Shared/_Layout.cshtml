@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+
+<html ng-app="FSApplication">
+<head>
+	<meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+	@Styles.Render("~/Content/w3")
+	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="http://www.w3schools.com/lib/w3-theme-red.css">
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/angular")
+	@Scripts.Render("~/bundles/angular-custom")
+	<link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.7.1/loading-bar.min.css' type='text/css' media='all' />
+	<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.7.1/loading-bar.min.js'></script>
+</head>
+<body ng-controller="mainController">
+	<div class="w3-row-padding-32">
+		<div class="w3-col w3-container s12 w3-theme" id="header">
+			<h1>
+				<i class="fa fa-folder-o" onclick="w3_open()"></i>
+				File Browser
+			</h1>
+		</div>
+		@RenderBody()
+		<div id="footer" class="w3-col w3-container w3-bottom w3-fixed s12 w3-theme">
+			<h1>
+				<i class="fa fa-copyright" onclick="w3_open()"></i>
+				Copyright whatever.
+			</h1>
+		</div>
+	</div>
+</body>
+</html>

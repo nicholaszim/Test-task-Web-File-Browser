@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html ng-app="fileSysApp">
+
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-2.2.0.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
+</head>
+
+<body ng-controller="FileSystemCtrl">
+    <div class="w3-container" id="mainContainer">
+        <div class="row">
+            <div class="w3-container w3-quarter w3-white">
+            </div>
+            <div class="w3-container w3-half w3-light-blue w3-border">
+                <!--<form class="w3-container" style="z-index: 1">
+                    <p>
+                        <input class="w3-input w3-border" type="text">
+                    </p>
+                </form>-->
+                <div class="w3-center">
+                    <h4>SIMPLE AS DOOR</h4>
+                    <h1 class="w3-xxxlarge w3-animate-bottom">WEB FILE BROWSER</h1>
+                    <h4>BROUGHT TO YOU BY MICROSOFT AND GOOGLE</h4>
+                    <br>
+                </div>
+                <div class="w3-container">
+                    <table class="w3-table w3-border">
+                        <tr class="w3-black">
+                            <th>Less 10Mb</th>
+                            <th>10mb-50Mb</th>
+                            <th>More 100Mb</th>
+                        </tr>
+                        <tr class="w3-white">
+                            <td>{{less10}}</td>
+                            <td>{{less50}}</td>
+                            <td>{{more100}}</td>
+                        </tr>
+                    </table>
+                    <form class="w3-container">
+                        <p>
+                            <input class="w3-input w3-border" type="text" value="{{path}}">
+                        </p>
+                    </form>
+                    <div class="row">
+                        <div class="w3-container w3-third">
+                            <ul class="w3-ul w3-card-4 w3-white w3-tiny">
+                                <li class="w3-black"><i class="fa fa-hdd-o"></i>&nbsp;Disks</li>
+                            </ul>
+                            <ul class="w3-ul w3-card-4 w3-white w3-tiny" style="height:150px; overflow: auto">
+                                <li ng-repeat="disk in disks">
+                                    {{disk}}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="w3-container w3-twothird">
+                            <ul class="w3-ul w3-card-4 w3-white w3-tiny">
+                                <li class="w3-black"><i class="fa fa-file-o"></i>&nbsp;Files and directories</li>
+                            </ul>
+                            <ul class="w3-ul w3-card-4 w3-white w3-tiny" style="height:300px; overflow: auto">
+                                <li><a href="#"><i class="fa fa-ellipsis-h"></i></a></li>
+                                <li ng-repeat="file in files">
+                                    {{file}}
+                                </li>
+                            </ul>
+                        </div>
+                        <script>
+                            'use strict'
+                            var fileSysApp = angular.module('fileSysApp', []);/*.config(['$routeProvider',
+                                                                                    function($routeProvider){
+                                $routeProvider.when('/phones', {
+                                                templateUrl: 'partials/phone-list.html',
+                                                controller: 'PhoneListCtrl'}).
+                                               when('/phones/:phoneId', {
+                                                templateUrl: 'partials/phone-detail.html', 
+                                                controller: 'PhoneDetailCtrl'
+                                               }).otherwise({redirectTo: '/phones'
+                                });
+                            });*/
+                            // separate function for injection.
+                            function FileSystemCtrl($scope, $http){
+                                $http.get('~/api/FileSystem').success(function(data){
+                                    $scope.disks = data.viewModel.Drives;
+                                    $scope.files = data.viewModel.Entries;
+                                    $scope.less10 = data.viewModel.Count10mb;
+                                    $scope.less50 = data.viewModel.Count50mb;
+                                    $scope.more100 = data.viewModel.Count100mb;
+                                }).error(function(){
+                                    console.warn("Server is not responding.");
+                                });
+                            }
+                            FileSystemCtrl.$inject = ['$scope', '$http'];
+                            fileSysApp.controller('FileSystemCtrl', FileSystemCtrl
+                                                  /*function($scope, $http){
+                                $http.get('~/api/FileSystem').success(function(data){
+                                    $scope.disks = data.viewModel.Drives;
+                                    $scope.files = data.viewModel.Entries;
+                                    $scope.less10 = data.viewModel.Count10mb;
+                                    $scope.less50 = data.viewModel.Count50mb;
+                                    $scope.more100 = data.viewModel.Count100mb;
+                                }).error(function(){
+                                    console.warn("Server is not responding.");
+                                });*/
+                                /*$scope.disks = [];
+                                $scope.disks = ["C:\\","C:\\","C:\\","C:\\"];
+                                $scope.files = [];
+                                $scope.files = ["MyComputer", "Recycled Bin", "Word.exe"];
+                                $scope.less10 = 32;
+                                $scope.less50 = 43;
+                                $scope.more100 = 4;
+                                $scope.path = "C:\\Program Files"*/             
+                            );
+                            
+                            /*function FileSystemCtrl($scope){
+                                $scope.disks = [];
+                                $scope.disks = ["C:\\","C:\\","C:\\","C:\\"];
+                                $scope.files = [];
+                                $scope.files = ["MyComputer", "Recycled Bin", "Word.exe"];
+                                $scope.less10 = 32;
+                                $scope.less50 = 43;
+                                $scope.more100 = 4;
+                                $scope.path = "C:\\Program Files"
+                            }*/
+                        </script>
+                    </div>
+                </div>
+                <br>
+                <footer class="w3-container w3-padding-32 33-red w3-center">
+                    <h4>Follow Us</h4>
+                    <a class="w3-btn-floating w3-teal" href="javascript:void(0)" title="Rss"><i class="fa fa-rss"></i></a>
+                    <a class="w3-btn-floating w3-teal" href="javascript:void(0)" title="Facebook"><i class="fa fa-facebook"></i></a>
+                    <a class="w3-btn-floating w3-teal" href="javascript:void(0)" title="Twitter"><i class="fa fa-twitter"></i></a>
+                    <a class="w3-btn-floating w3-teal" href="javascript:void(0)" title="Google +"><i class="fa fa-google-plus"></i></a>
+                    <a class="w3-btn-floating w3-teal" href="javascript:void(0)" title="Linkedin"><i class="fa fa-linkedin"></i></a>
+                    <p>&copy; Copyright whatever</p>
+                </footer>
+            </div>
+            <div class="w3-container w3-quarter w3-white">
+                <!--<form class="w3-container">
+                    <p>
+                        <input class="w3-input w3-border" type="text">
+                    </p>
+                </form>-->
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
